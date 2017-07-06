@@ -14,6 +14,7 @@ class Arm():
             print("Don't forget to change the serial location for your system. Currently set to: {}".format(loc))
         
         self.wait() # wait until ready
+        sleep(1)
 
     def wait(self):
         while True:
@@ -39,7 +40,20 @@ class Arm():
     def line(self, sx, sy, ex, ey, steps):
         self.ser.write('3 {:.2f} {:.2f} {:.2f} {:.2f} {}'.format(sx, sy, ex, ey, steps).encode('utf-8'))
         self.wait() 
-    
+
+    def draw_board(self, sx, sy):
+        sp_size = 2 # space size inches
+        steps = 5
+
+        self.move_to(sx, sy)
+
+        # vert
+        self.line(sx+sp_size,    sy, sx+sp_size,     sy+3*sp_size,   steps)
+        self.line(sx+2*sp_size,  sy, sx+2*sp_size,   sy+3*sp_size,   steps)
+
+        # horiz
+        self.line(sx, sy+sp_size,    sx+3*sp_size,   sy+sp_size,     steps)
+        self.line(sx, sy+2*sp_size,  sx+3*sp_size,   sy+2*sp_size,   steps)
 
 if __name__ == "__main__":
     arm = Arm()

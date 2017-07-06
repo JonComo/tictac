@@ -12,8 +12,8 @@ int a1, a2; // servo angles
 float x, y;
 
 void setup() {
-  a1 = -1; // will be changed on first move
-  a2 = -1;
+  a1 = 80;
+  a2 = 0;
   
   servo1.attach(5); // arm away (machine drawing to your right)
   servo2.attach(6); // arm close
@@ -57,12 +57,6 @@ void move_to(int t1, int t2) {
 
   t1 += 90 - 10;
   t2 -= 45;
-
-  if (a1 == -1) {
-    a1 = t1;
-    a2 = t2;
-    there = true;
-  }
 
   while (!there) {
     there = true;

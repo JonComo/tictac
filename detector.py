@@ -11,11 +11,12 @@ import numpy as np
 import json
 
 class Detector():
-    def __init__(self, img_rows, img_cols, weights_path):
+    def __init__(self, img_rows, img_cols):
         self.img_rows = img_rows
         self.img_cols = img_cols
         self.create_model(img_rows, img_cols)
 
+        weights_path = './weights-02-0.43.hdf5'
         print('loading model weights from path: {}'.format(weights_path))
         self.model.load_weights(weights_path, by_name=False)
         print('loaded weights')
