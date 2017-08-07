@@ -8,12 +8,9 @@ Servo servo1;
 Servo servo2; 
 Servo servo3;
 
-int a1, a2; // servo angles
 float x, y;
 
 void setup() {
-  a1 = 80;
-  a2 = 0;
   
   servo1.attach(5); // arm away (machine drawing to your right)
   servo2.attach(6); // arm close
@@ -49,52 +46,22 @@ void pen_up() {
 }
 
 void pen_down() {
-  servo3.write(120);
-}
-
-void move_to(int t1, int t2) {
-  bool there = false;
-
-  t1 += 90 - 10;
-  t2 -= 45;
-
-  while (!there) {
-    there = true;
-    
-    if (a1 < t1) {
-      a1 += 1;
-      there = false;
-    } else if (a1 > t1) {
-      a1 -= 1;
-      there = false;
-    }
-  
-    if (a2 < t2) {
-      a2 += 1;
-      there = false;
-    } else if (a2 > t2) {
-      a2 -= 1;
-      there = false;
-    }
-  
-    servo1.write(a1 + a2);
-    servo2.write(a1 - a2);
-    
-    delay(50);
-  }
+  servo3.write(50);
 }
 
 void move_to_xy(float x, float y) {
-
-  // offset due to pen position
-  x -= 1;
-  y -= 1;
   
   int angle = int(  atan2(y, x) * 180 / PI );
   float d = sqrt(x*x + y*y);
-  int spread = int(  acos(d/20.5) * 180 / PI );
+  int spread = int(  acos(d/8.5) * 180 / PI );
 
-  move_to(angle, spread);
+  angle += 90;
+  spread -= 45;
+
+  servo1.write(angle + spread);
+  servo2.write(angle - spread);
+  
+  delay(100);
 }
 
 void line(float sx, float sy, float ex, float ey, int steps) {
@@ -139,7 +106,7 @@ void python_control() {
   if (Serial.available() > 0) {
     int cmd = Serial.parseInt();
 
-    if (cmd == 0) {
+    if (cmd == 0) { // pen
       pen_up();
       delay(250);
     } else if (cmd == 1) {

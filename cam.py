@@ -16,11 +16,9 @@ class Cam():
         while len(last_k) < k:
             ret_val, img = cam.read()
             img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-            img = cv2.resize(img, (int(img.shape[1]/4), int(img.shape[0]/4)))
-            
-            img = cv2.flip(img, 1)
-            img = img[0:self.img_rows, 0:self.img_cols]
-            
+            img = cv2.resize(img, (int(img.shape[1]/9), int(img.shape[0]/9)))
+            sr, sc = 22, 24
+            img = img[sr:sr+self.img_rows, sc:sc+self.img_cols]
             
             # adaptive thresholding
             # http://docs.opencv.org/trunk/d7/d4d/tutorial_py_thresholding.html
